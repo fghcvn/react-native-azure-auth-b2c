@@ -1,3 +1,7 @@
+** This fork is a temporary solution to the issue ** https://github.com/vmurin/react-native-azure-auth/issues/247
+
+
+
 # react-native-azure-auth
 
 [![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg)](https://github.com/pickhardt/maintainers-wanted)
