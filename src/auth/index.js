@@ -4,6 +4,7 @@ import { toCamelCase } from '../utils/camel'
 import AuthError from './authError'
 import TokenCache from '../token/cache'
 import log from '../utils/logger'
+import BaseTokenItem from '../token/baseTokenItem'
 
 import { NativeModules, Platform } from 'react-native'
 import Scope from '../token/scope'
@@ -198,6 +199,15 @@ export default class Auth {
                 if (tokenResponse && tokenResponse.accessToken) {
                     accessToken = await this.cache.saveAccessToken(tokenResponse)
                     return accessToken
+                }
+                
+                // B2C responses contain an idToken but no accessToken.
+                // In that case return a BaseTokenItem (contains rawIdToken and userId)
+                if (tokenResponse && tokenResponse.idToken) {
+                    console.log('Refresh response contains idToken but no accessToken — returning BaseTokenItem with rawIdToken');
+                    
+                    // Return a BaseTokenItem (contains rawIdToken and userId).
+                    return new BaseTokenItem(tokenResponse, this.clientId)
                 }
             }
         } catch (error) {
